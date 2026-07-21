@@ -47,6 +47,15 @@ Site de perfil/portfólio pessoal de **Abner Salatiel de Oliveira**, estudante d
   o jsDelivr busca o conteúdo —, mas o HTML referencia a URL do CDN em vez do caminho relativo. O jsDelivr tem um
   limite de 20 MB por arquivo, por isso o vídeo do WRC foi comprimido um pouco mais (`wrc-rally-v4.mp4`, ~14,5 MB)
   para caber no limite.
+- **Vídeos recodificados em H.264 perfil Baseline (`wrc-rally-v5.mp4` / `cs2-fps-v4.mp4`).** Mesmo com CDN e cache
+  corretos, um usuário relatou que o vídeo carregava dados (confirmado pela aba Rede do Firefox, com respostas
+  `206 Partial Content` reais) mas nunca desenhava um quadro — tela preta ou apenas a imagem estática do poster,
+  sem avançar. Isso é o padrão de uma **falha de decodificação por hardware** no navegador (GPU/driver específico),
+  não um problema de rede ou de servidor. O perfil "High" usado antes tem recursos (B-frames, CABAC, transformada
+  8x8) que alguns decodificadores por hardware lidam mal; o perfil **Baseline** (`profile:v baseline`, sem B-frames,
+  sem CABAC) é o mais simples e universalmente suportado do H.264, usado historicamente até em celulares antigos.
+  Isso reduz um pouco a eficiência de compressão (arquivos maiores para a mesma qualidade), mas elimina praticamente
+  qualquer risco de incompatibilidade de decodificador.
 
 ## Tecnologias utilizadas
 
@@ -75,8 +84,8 @@ site_meu_perfil/
     │   ├── poster-wrc.jpg  # Thumbnail do vídeo de rally
     │   └── poster-cs2.jpg  # Thumbnail do vídeo de FPS
     └── video/
-        ├── wrc-rally-v4.mp4  # Clipe jogando WRC Generations (comprimido para web, servido via jsDelivr)
-        └── cs2-fps-v3.mp4    # Clipe jogando CS2 (comprimido para web, servido via jsDelivr)
+        ├── wrc-rally-v5.mp4  # Clipe jogando WRC Generations (H.264 Baseline, servido via jsDelivr)
+        └── cs2-fps-v4.mp4    # Clipe jogando CS2 (H.264 Baseline, servido via jsDelivr)
 ```
 
 ## Como executar localmente
