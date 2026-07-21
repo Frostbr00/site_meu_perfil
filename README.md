@@ -13,6 +13,8 @@ Site de perfil/portfólio pessoal de **Abner Salatiel de Oliveira**, estudante d
 - **Galeria** de fotos responsiva com lightbox (clique para ampliar)
 - **Vídeos**: dois clipes (WRC Generations e CS2) com player HTML5 nativo, controles e adaptação automática de tamanho
 - **Contato**: botões para Instagram e Steam, ambos abrindo em nova guia
+- **Bolinha interativa**: um orbe flutuante que fica quicando pela tela e mudando de cor continuamente; ao clicar,
+  toca um som (sintetizado via Web Audio API, sem arquivo de áudio) e muda de direção instantaneamente
 
 ## Correções e melhorias (última atualização)
 
@@ -65,6 +67,11 @@ Site de perfil/portfólio pessoal de **Abner Salatiel de Oliveira**, estudante d
   nenhum componente do Windows. Cada `<video>` agora lista **dois** `<source>`: o `.webm` primeiro, `.mp4` (H.264
   Baseline) como reserva para navegadores que não suportam WebM (ex.: Safari/iOS). O navegador escolhe
   automaticamente o primeiro formato que conseguir reproduzir.
+- **Bolinha interativa adicionada.** Um orbe flutuante (`#orb`) fica quicando pelas bordas da tela (estilo "DVD
+  logo") e mudando de cor continuamente via `requestAnimationFrame`. Ao clicar, toca um som curto sintetizado na
+  hora com a Web Audio API (osciloscópio + envelope de volume, sem precisar de nenhum arquivo `.mp3`/`.wav`), muda
+  de direção instantaneamente e salta para uma nova cor. Respeita `prefers-reduced-motion` (para quando esse
+  ajuste estiver ativo no sistema do visitante, a animação de movimento fica desativada).
 
 ## Tecnologias utilizadas
 

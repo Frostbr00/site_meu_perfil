@@ -701,6 +701,52 @@ button {
 }
 
 /* ==========================================================
+   Bolinha interativa
+   ========================================================== */
+.orb {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 50%;
+  padding: 0;
+  cursor: pointer;
+  z-index: 150;
+  background: radial-gradient(circle at 32% 28%, hsl(190 100% 80%), hsl(190 90% 45%));
+  box-shadow: 0 0 24px 4px hsl(190 100% 60% / 0.55), 0 0 4px hsl(190 100% 85% / 0.9) inset;
+  transition: background 0.15s linear, box-shadow 0.15s linear;
+  animation: orbPulse 2.4s ease-in-out infinite;
+  will-change: transform;
+}
+
+.orb:hover {
+  filter: brightness(1.15);
+}
+
+.orb.orb-pop {
+  animation: orbPop 0.35s ease-out;
+}
+
+@keyframes orbPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.12); }
+}
+
+@keyframes orbPop {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.5); }
+  100% { transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orb {
+    animation: none;
+  }
+}
+
+/* ==========================================================
    Responsive
    ========================================================== */
 @media (max-width: 900px) {
