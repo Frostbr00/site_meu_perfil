@@ -653,6 +653,14 @@ button {
   box-shadow: 0 12px 30px rgba(102, 192, 244, 0.3);
 }
 
+.social-btn-youtube {
+  background: linear-gradient(90deg, #cc0000, #ff2020);
+}
+
+.social-btn-youtube:hover {
+  box-shadow: 0 12px 30px rgba(255, 32, 32, 0.35);
+}
+
 /* ==========================================================
    Footer
    ========================================================== */
@@ -717,33 +725,11 @@ button {
   background: radial-gradient(circle at 32% 28%, hsl(190 100% 80%), hsl(190 90% 45%));
   box-shadow: 0 0 24px 4px hsl(190 100% 60% / 0.55), 0 0 4px hsl(190 100% 85% / 0.9) inset;
   transition: background 0.15s linear, box-shadow 0.15s linear;
-  animation: orbPulse 2.4s ease-in-out infinite;
   will-change: transform;
 }
 
 .orb:hover {
   filter: brightness(1.15);
-}
-
-.orb.orb-pop {
-  animation: orbPop 0.35s ease-out;
-}
-
-@keyframes orbPulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.12); }
-}
-
-@keyframes orbPop {
-  0% { transform: scale(1); }
-  40% { transform: scale(1.5); }
-  100% { transform: scale(1); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .orb {
-    animation: none;
-  }
 }
 
 /* ==========================================================

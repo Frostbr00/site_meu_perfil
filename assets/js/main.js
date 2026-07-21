@@ -55,17 +55,20 @@ let orbY = Math.random() * (window.innerHeight - orbSize);
 let orbAngle = Math.random() * Math.PI * 2;
 let orbSpeed = 1.6;
 let orbHue = Math.random() * 360;
+let orbPopAt = -Infinity;
 
 function setOrbColor(hue) {
   orb.style.background = `radial-gradient(circle at 32% 28%, hsl(${hue} 100% 80%), hsl(${hue} 90% 45%))`;
   orb.style.boxShadow = `0 0 24px 4px hsl(${hue} 100% 60% / 0.55), 0 0 4px hsl(${hue} 100% 85% / 0.9) inset`;
 }
 
-function stepOrb() {
-  if (!reduceMotion) {
-    orbHue = (orbHue + 0.25) % 360;
-    setOrbColor(orbHue);
+// Movement, ambient pulse and click-pop all feed into a single transform here,
+// since a CSS keyframe animation on the same property would overwrite this translate.
+function stepOrb(now) {
+  orbHue = (orbHue + 0.25) % 360;
+  setOrbColor(orbHue);
 
+  if (!reduceMotion) {
     orbX += Math.cos(orbAngle) * orbSpeed;
     orbY += Math.sin(orbAngle) * orbSpeed;
 
@@ -80,9 +83,15 @@ function stepOrb() {
       orbAngle = -orbAngle;
       orbY = Math.min(Math.max(orbY, 0), maxY);
     }
-
-    orb.style.transform = `translate(${orbX}px, ${orbY}px)`;
   }
+
+  let scale = reduceMotion ? 1 : 1 + 0.06 * Math.sin(now / 400);
+  const popElapsed = now - orbPopAt;
+  if (popElapsed >= 0 && popElapsed < 350) {
+    scale += Math.sin((popElapsed / 350) * Math.PI) * 0.5;
+  }
+
+  orb.style.transform = `translate(${orbX}px, ${orbY}px) scale(${scale})`;
   requestAnimationFrame(stepOrb);
 }
 requestAnimationFrame(stepOrb);
@@ -115,7 +124,5 @@ orb.addEventListener("click", () => {
   orbAngle = Math.random() * Math.PI * 2;
   orbHue = (orbHue + 90 + Math.random() * 90) % 360;
   setOrbColor(orbHue);
-  orb.classList.remove("orb-pop");
-  void orb.offsetWidth;
-  orb.classList.add("orb-pop");
+  orbPopAt = performance.now();
 });

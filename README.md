@@ -12,7 +12,7 @@ Site de perfil/portfólio pessoal de **Abner Salatiel de Oliveira**, estudante d
 - **Interesses**: SUVs, rally, jogos de FPS, programação
 - **Galeria** de fotos responsiva com lightbox (clique para ampliar)
 - **Vídeos**: dois clipes (WRC Generations e CS2) com player HTML5 nativo, controles e adaptação automática de tamanho
-- **Contato**: botões para Instagram e Steam, ambos abrindo em nova guia
+- **Contato**: botões para Instagram, Steam e YouTube, todos abrindo em nova guia
 - **Bolinha interativa**: um orbe flutuante que fica quicando pela tela e mudando de cor continuamente; ao clicar,
   toca um som (sintetizado via Web Audio API, sem arquivo de áudio) e muda de direção instantaneamente
 
@@ -72,6 +72,14 @@ Site de perfil/portfólio pessoal de **Abner Salatiel de Oliveira**, estudante d
   hora com a Web Audio API (osciloscópio + envelope de volume, sem precisar de nenhum arquivo `.mp3`/`.wav`), muda
   de direção instantaneamente e salta para uma nova cor. Respeita `prefers-reduced-motion` (para quando esse
   ajuste estiver ativo no sistema do visitante, a animação de movimento fica desativada).
+- **Correção: a bolinha não aparecia na tela.** A causa era um conflito de CSS: a animação `@keyframes` de pulsação
+  (`transform: scale(...)`) sobrescrevia o `transform: translate(...)` que o JavaScript usa para mover o orbe pela
+  tela, porque animações CSS têm prioridade sobre estilos definidos via JavaScript na mesma propriedade. Na prática,
+  o orbe ficava travado no canto superior esquerdo (fora da área visível), só pulsando no lugar. A correção
+  combina o movimento, a pulsação ambiente e o "pulo" do clique em um único `transform` calculado inteiramente
+  via JavaScript a cada quadro, eliminando a disputa entre CSS e JS pela mesma propriedade.
+- **Canal do YouTube adicionado** na seção de contato, com o mesmo tratamento visual do Instagram e da Steam
+  (ícone + botão colorido, abrindo em nova guia): https://www.youtube.com/@frostbr0069/shorts
 
 ## Tecnologias utilizadas
 
