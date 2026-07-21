@@ -70,8 +70,7 @@ Site de perfil/portfólio pessoal de **Abner Salatiel de Oliveira**, estudante d
 - **Bolinha interativa adicionada.** Um orbe flutuante (`#orb`) fica quicando pelas bordas da tela (estilo "DVD
   logo") e mudando de cor continuamente via `requestAnimationFrame`. Ao clicar, toca um som curto sintetizado na
   hora com a Web Audio API (osciloscópio + envelope de volume, sem precisar de nenhum arquivo `.mp3`/`.wav`), muda
-  de direção instantaneamente e salta para uma nova cor. Respeita `prefers-reduced-motion` (para quando esse
-  ajuste estiver ativo no sistema do visitante, a animação de movimento fica desativada).
+  de direção instantaneamente e salta para uma nova cor.
 - **Correção: a bolinha não aparecia na tela.** A causa era um conflito de CSS: a animação `@keyframes` de pulsação
   (`transform: scale(...)`) sobrescrevia o `transform: translate(...)` que o JavaScript usa para mover o orbe pela
   tela, porque animações CSS têm prioridade sobre estilos definidos via JavaScript na mesma propriedade. Na prática,
@@ -80,6 +79,11 @@ Site de perfil/portfólio pessoal de **Abner Salatiel de Oliveira**, estudante d
   via JavaScript a cada quadro, eliminando a disputa entre CSS e JS pela mesma propriedade.
 - **Canal do YouTube adicionado** na seção de contato, com o mesmo tratamento visual do Instagram e da Steam
   (ícone + botão colorido, abrindo em nova guia): https://www.youtube.com/@frostbr0069/shorts
+- **Correção: a bolinha continuava sem se mover para alguns visitantes.** O código respeitava
+  `prefers-reduced-motion: reduce` (uma preferência de acessibilidade do sistema operacional/navegador) desativando
+  todo o movimento quando essa opção está ativa. Isso é uma boa prática geral, mas aqui conflitava com o pedido
+  explícito de uma bolinha que se movimenta pelo site — então essa restrição foi removida e o orbe agora sempre se
+  move, independente da configuração de movimento reduzido do visitante.
 
 ## Tecnologias utilizadas
 

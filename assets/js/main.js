@@ -48,7 +48,6 @@ window.addEventListener("scroll", () => {
 });
 
 const orb = document.getElementById("orb");
-const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const orbSize = 44;
 let orbX = Math.random() * (window.innerWidth - orbSize);
 let orbY = Math.random() * (window.innerHeight - orbSize);
@@ -68,24 +67,22 @@ function stepOrb(now) {
   orbHue = (orbHue + 0.25) % 360;
   setOrbColor(orbHue);
 
-  if (!reduceMotion) {
-    orbX += Math.cos(orbAngle) * orbSpeed;
-    orbY += Math.sin(orbAngle) * orbSpeed;
+  orbX += Math.cos(orbAngle) * orbSpeed;
+  orbY += Math.sin(orbAngle) * orbSpeed;
 
-    const maxX = window.innerWidth - orbSize;
-    const maxY = window.innerHeight - orbSize;
+  const maxX = window.innerWidth - orbSize;
+  const maxY = window.innerHeight - orbSize;
 
-    if (orbX <= 0 || orbX >= maxX) {
-      orbAngle = Math.PI - orbAngle;
-      orbX = Math.min(Math.max(orbX, 0), maxX);
-    }
-    if (orbY <= 0 || orbY >= maxY) {
-      orbAngle = -orbAngle;
-      orbY = Math.min(Math.max(orbY, 0), maxY);
-    }
+  if (orbX <= 0 || orbX >= maxX) {
+    orbAngle = Math.PI - orbAngle;
+    orbX = Math.min(Math.max(orbX, 0), maxX);
+  }
+  if (orbY <= 0 || orbY >= maxY) {
+    orbAngle = -orbAngle;
+    orbY = Math.min(Math.max(orbY, 0), maxY);
   }
 
-  let scale = reduceMotion ? 1 : 1 + 0.06 * Math.sin(now / 400);
+  let scale = 1 + 0.06 * Math.sin(now / 400);
   const popElapsed = now - orbPopAt;
   if (popElapsed >= 0 && popElapsed < 350) {
     scale += Math.sin((popElapsed / 350) * Math.PI) * 0.5;
