@@ -7,12 +7,23 @@ Site de perfil/portfólio pessoal de **Abner Salatiel de Oliveira**, estudante d
 ## Conteúdo do site
 
 - **Hero** com efeito glitch no título e chamada para ação
-- **Sobre**: nome, data de nascimento, país e curso
+- **Sobre**: nome, data de nascimento, país, curso e uma **biografia completa** (formação, objetivo profissional e hobbies), com link destacado para o perfil da Steam
 - **Hobbies**: jogar videogame, academia, andar de carro
 - **Interesses**: SUVs, rally, jogos de FPS, programação
 - **Galeria** de fotos responsiva com lightbox (clique para ampliar)
 - **Vídeos**: dois clipes (WRC Generations e CS2) com player HTML5 nativo, controles e adaptação automática de tamanho
-- **Contato**: botão para o Instagram, abrindo em nova guia
+- **Contato**: botões para Instagram e Steam, ambos abrindo em nova guia
+
+## Correções e melhorias (última atualização)
+
+- **Vídeos corrigidos para reprodução em todos os navegadores modernos.** Os arquivos originais foram recodificados
+  com `yuvj420p` (faixa de cor *full range*), um formato que o Safari/iOS costuma recusar a decodificar, e o clipe do
+  CS2 carregava uma trilha extra de timecode (`tmcd`) herdada do `.mov` original, o que podia confundir alguns
+  decodificadores. Ambos os vídeos foram recomprimidos com `yuv420p` em faixa de cor limitada (*tv range*, padrão
+  para vídeo web), sem faixas de dados extras, mantendo controles nativos e responsividade total.
+- **Biografia adicionada** na seção "Sobre", com o link do perfil da Steam em destaque (botão com ícone), além de
+  um segundo botão de Steam na seção de contato ao lado do Instagram.
+- Verificação de imagens, vídeos e links (âncoras internas e externos) sem 404 ou recursos quebrados.
 
 ## Tecnologias utilizadas
 

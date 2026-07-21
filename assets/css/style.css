@@ -421,6 +421,55 @@ button {
   color: var(--text-dim);
 }
 
+/* ---- Bio ---- */
+.bio-block {
+  margin-top: 2.6rem;
+  padding: 2.2rem 2rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: 4px 18px 18px 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  max-width: 780px;
+}
+
+.bio-title {
+  font-size: 1.3rem;
+  color: var(--accent);
+  letter-spacing: 0.03em;
+}
+
+.bio-block p {
+  color: var(--text-dim);
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+.bio-block strong {
+  color: var(--text);
+}
+
+.profile-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 0.4rem;
+}
+
+.btn-steam {
+  background: linear-gradient(90deg, #1b2838, #2a475e);
+  color: #66c0f4;
+  border: 1px solid #2a475e;
+}
+
+.btn-steam:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(102, 192, 244, 0.3);
+  color: #c7ecff;
+}
+
 /* ---- Cards (hobbies) ---- */
 .card-grid {
   display: flex;
@@ -575,6 +624,10 @@ button {
   color: var(--text-dim);
 }
 
+.contact .profile-links {
+  justify-content: center;
+}
+
 .social-btn {
   display: inline-flex;
   align-items: center;
@@ -590,6 +643,14 @@ button {
 .social-btn:hover {
   transform: translateY(-4px);
   box-shadow: 0 12px 30px rgba(255, 46, 230, 0.35);
+}
+
+.social-btn-steam {
+  background: linear-gradient(90deg, #1b2838, #2a475e);
+}
+
+.social-btn-steam:hover {
+  box-shadow: 0 12px 30px rgba(102, 192, 244, 0.3);
 }
 
 /* ==========================================================
