@@ -37,6 +37,16 @@ Site de perfil/portfólio pessoal de **Abner Salatiel de Oliveira**, estudante d
   com `pix_fmt yuv420p` em faixa de cor limitada (*tv range*) e sem faixas de dados extras — o único formato com
   suporte garantido em Chrome, Firefox, Edge e Safari/iOS. Renomear ou converter os arquivos originais na pasta de
   origem não altera o site publicado; é sempre necessário recomprimir e reenviar os arquivos em `assets/video/`.
+- **Vídeos servidos via jsDelivr, não direto pelo GitHub Pages.** Mesmo com o codec correto, o CDN do GitHub Pages
+  (Fastly) anuncia suporte a `Range` requests mas nem sempre os honra (responde `200` com o arquivo inteiro em vez
+  de `206 Partial Content`). Isso é tolerado pelo Chrome, mas faz o **Firefox** (e outros navegadores mais estritos)
+  ficar girando o carregamento pra sempre, porque o player espera respostas parciais reais para controlar o buffer.
+  A solução foi apontar as tags `<source>` dos vídeos para o **jsDelivr** (`cdn.jsdelivr.net/gh/...`), uma CDN
+  gratuita que espelha qualquer repositório público do GitHub e responde corretamente a `Range` requests
+  (`206 Partial Content` confirmado). Os arquivos continuam vivendo em `assets/video/` no repositório — é de lá que
+  o jsDelivr busca o conteúdo —, mas o HTML referencia a URL do CDN em vez do caminho relativo. O jsDelivr tem um
+  limite de 20 MB por arquivo, por isso o vídeo do WRC foi comprimido um pouco mais (`wrc-rally-v4.mp4`, ~14,5 MB)
+  para caber no limite.
 
 ## Tecnologias utilizadas
 
@@ -65,8 +75,8 @@ site_meu_perfil/
     │   ├── poster-wrc.jpg  # Thumbnail do vídeo de rally
     │   └── poster-cs2.jpg  # Thumbnail do vídeo de FPS
     └── video/
-        ├── wrc-rally-v3.mp4  # Clipe jogando WRC Generations (comprimido para web)
-        └── cs2-fps-v3.mp4    # Clipe jogando CS2 (comprimido para web)
+        ├── wrc-rally-v4.mp4  # Clipe jogando WRC Generations (comprimido para web, servido via jsDelivr)
+        └── cs2-fps-v3.mp4    # Clipe jogando CS2 (comprimido para web, servido via jsDelivr)
 ```
 
 ## Como executar localmente
