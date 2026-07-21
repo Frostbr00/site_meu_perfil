@@ -56,6 +56,15 @@ Site de perfil/portfólio pessoal de **Abner Salatiel de Oliveira**, estudante d
   sem CABAC) é o mais simples e universalmente suportado do H.264, usado historicamente até em celulares antigos.
   Isso reduz um pouco a eficiência de compressão (arquivos maiores para a mesma qualidade), mas elimina praticamente
   qualquer risco de incompatibilidade de decodificador.
+- **Adicionada uma segunda versão em WebM (VP9 + Opus) como fonte primária.** Mesmo com Baseline, um usuário
+  seguiu relatando o vídeo travado (dados chegando pela rede, mas nenhum quadro desenhado). O padrão bate com uma
+  falha de decodificação por hardware/sistema operacional específica do H.264 naquele navegador — ele já havia
+  descartado aceleração de hardware da GPU, então a suspeita mais provável é o Firefox no Windows depender de
+  componentes do sistema (Media Foundation) para decodificar H.264, que podem estar ausentes/corrompidos. O VP9
+  usado no WebM é decodificado inteiramente pelo próprio Firefox (biblioteca `libvpx` embutida), sem depender de
+  nenhum componente do Windows. Cada `<video>` agora lista **dois** `<source>`: o `.webm` primeiro, `.mp4` (H.264
+  Baseline) como reserva para navegadores que não suportam WebM (ex.: Safari/iOS). O navegador escolhe
+  automaticamente o primeiro formato que conseguir reproduzir.
 
 ## Tecnologias utilizadas
 
@@ -84,8 +93,10 @@ site_meu_perfil/
     │   ├── poster-wrc.jpg  # Thumbnail do vídeo de rally
     │   └── poster-cs2.jpg  # Thumbnail do vídeo de FPS
     └── video/
-        ├── wrc-rally-v5.mp4  # Clipe jogando WRC Generations (H.264 Baseline, servido via jsDelivr)
-        └── cs2-fps-v4.mp4    # Clipe jogando CS2 (H.264 Baseline, servido via jsDelivr)
+        ├── wrc-rally-v5.webm # Clipe jogando WRC Generations (VP9/Opus, fonte primária)
+        ├── wrc-rally-v5.mp4  # Mesmo clipe em H.264 Baseline (reserva, ex. Safari/iOS)
+        ├── cs2-fps-v4.webm   # Clipe jogando CS2 (VP9/Opus, fonte primária)
+        └── cs2-fps-v4.mp4    # Mesmo clipe em H.264 Baseline (reserva, ex. Safari/iOS)
 ```
 
 ## Como executar localmente
