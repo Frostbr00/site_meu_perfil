@@ -55,6 +55,11 @@ let orbAngle = Math.random() * Math.PI * 2;
 let orbSpeed = 1.6;
 let orbHue = Math.random() * 360;
 let orbPopAt = -Infinity;
+let orbPinned = false;
+let orbInteracting = false;
+let orbDragMoved = false;
+let orbGrabDX = 0;
+let orbGrabDY = 0;
 
 function setOrbColor(hue) {
   orb.style.background = `radial-gradient(circle at 32% 28%, hsl(${hue} 100% 80%), hsl(${hue} 90% 45%))`;
@@ -67,19 +72,21 @@ function stepOrb(now) {
   orbHue = (orbHue + 0.25) % 360;
   setOrbColor(orbHue);
 
-  orbX += Math.cos(orbAngle) * orbSpeed;
-  orbY += Math.sin(orbAngle) * orbSpeed;
+  if (!orbPinned && !orbInteracting) {
+    orbX += Math.cos(orbAngle) * orbSpeed;
+    orbY += Math.sin(orbAngle) * orbSpeed;
 
-  const maxX = window.innerWidth - orbSize;
-  const maxY = window.innerHeight - orbSize;
+    const maxX = window.innerWidth - orbSize;
+    const maxY = window.innerHeight - orbSize;
 
-  if (orbX <= 0 || orbX >= maxX) {
-    orbAngle = Math.PI - orbAngle;
-    orbX = Math.min(Math.max(orbX, 0), maxX);
-  }
-  if (orbY <= 0 || orbY >= maxY) {
-    orbAngle = -orbAngle;
-    orbY = Math.min(Math.max(orbY, 0), maxY);
+    if (orbX <= 0 || orbX >= maxX) {
+      orbAngle = Math.PI - orbAngle;
+      orbX = Math.min(Math.max(orbX, 0), maxX);
+    }
+    if (orbY <= 0 || orbY >= maxY) {
+      orbAngle = -orbAngle;
+      orbY = Math.min(Math.max(orbY, 0), maxY);
+    }
   }
 
   let scale = 1 + 0.06 * Math.sin(now / 400);
@@ -116,10 +123,49 @@ function playOrbSound() {
   osc.stop(now + 0.25);
 }
 
-orb.addEventListener("click", () => {
-  playOrbSound();
-  orbAngle = Math.random() * Math.PI * 2;
-  orbHue = (orbHue + 90 + Math.random() * 90) % 360;
-  setOrbColor(orbHue);
-  orbPopAt = performance.now();
+const orbDragThreshold = 4;
+
+orb.addEventListener("pointerdown", (e) => {
+  orb.setPointerCapture(e.pointerId);
+  orbInteracting = true;
+  orbDragMoved = false;
+  orbGrabDX = e.clientX - orbX;
+  orbGrabDY = e.clientY - orbY;
 });
+
+orb.addEventListener("pointermove", (e) => {
+  if (!orbInteracting) return;
+  const nx = e.clientX - orbGrabDX;
+  const ny = e.clientY - orbGrabDY;
+  if (!orbDragMoved && Math.hypot(nx - orbX, ny - orbY) > orbDragThreshold) {
+    orbDragMoved = true;
+    orb.classList.add("dragging");
+  }
+  if (orbDragMoved) {
+    const maxX = window.innerWidth - orbSize;
+    const maxY = window.innerHeight - orbSize;
+    orbX = Math.min(Math.max(nx, 0), maxX);
+    orbY = Math.min(Math.max(ny, 0), maxY);
+  }
+});
+
+function endOrbInteraction(e) {
+  if (!orbInteracting) return;
+  orb.releasePointerCapture(e.pointerId);
+  orbInteracting = false;
+  orb.classList.remove("dragging");
+
+  if (orbDragMoved) {
+    orbPinned = true;
+  } else {
+    playOrbSound();
+    orbAngle = Math.random() * Math.PI * 2;
+    orbHue = (orbHue + 90 + Math.random() * 90) % 360;
+    setOrbColor(orbHue);
+    orbPopAt = performance.now();
+    orbPinned = false;
+  }
+}
+
+orb.addEventListener("pointerup", endOrbInteraction);
+orb.addEventListener("pointercancel", endOrbInteraction);

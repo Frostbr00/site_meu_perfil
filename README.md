@@ -84,6 +84,11 @@ Site de perfil/portfólio pessoal de **Abner Salatiel de Oliveira**, estudante d
   todo o movimento quando essa opção está ativa. Isso é uma boa prática geral, mas aqui conflitava com o pedido
   explícito de uma bolinha que se movimenta pelo site — então essa restrição foi removida e o orbe agora sempre se
   move, independente da configuração de movimento reduzido do visitante.
+- **Bolinha agora pode ser arrastada e fixada onde o visitante quiser.** Usando Pointer Events (`pointerdown`
+  / `pointermove` / `pointerup`, funciona com mouse e toque), segurar e arrastar a bolinha a move livremente pela
+  tela; ao soltar, ela **fica parada** na posição onde foi largada, sem retomar o movimento automático. Um clique
+  simples (sem arrastar) continua funcionando como antes — toca o som, muda de direção e a bolinha volta a se
+  mover normalmente, mesmo se estivesse fixada antes.
 
 ## Tecnologias utilizadas
 

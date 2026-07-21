@@ -720,7 +720,8 @@ button {
   border: none;
   border-radius: 50%;
   padding: 0;
-  cursor: pointer;
+  cursor: grab;
+  touch-action: none;
   z-index: 150;
   background: radial-gradient(circle at 32% 28%, hsl(190 100% 80%), hsl(190 90% 45%));
   box-shadow: 0 0 24px 4px hsl(190 100% 60% / 0.55), 0 0 4px hsl(190 100% 85% / 0.9) inset;
@@ -730,6 +731,10 @@ button {
 
 .orb:hover {
   filter: brightness(1.15);
+}
+
+.orb.dragging {
+  cursor: grabbing;
 }
 
 /* ==========================================================
